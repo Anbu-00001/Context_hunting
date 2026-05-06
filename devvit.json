@@ -6,10 +6,10 @@
     "entrypoints": {
       "default": {
         "inline": true,
-        "entry": "splash.html"
+        "entry": "dashboard.html"
       },
-      "game": {
-        "entry": "game.html"
+      "context-panel": {
+        "entry": "context-panel.html"
       }
     }
   },
@@ -20,8 +20,8 @@
   "menu": {
     "items": [
       {
-        "label": "Create a new post",
-        "description": "quorum-int",
+        "label": "QUORUM Dashboard",
+        "description": "Open the QUORUM mod dashboard",
         "location": "subreddit",
         "forUserType": "moderator",
         "endpoint": "/internal/menu/post-create"
