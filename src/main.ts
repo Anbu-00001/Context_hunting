@@ -16,20 +16,11 @@ import * as Sentry from "@sentry/node";
 
 // ── Types ────────────────────────────────────────────────
 
-/** Payload sent to the N8N webhook when a post is submitted. */
 export interface FlaggedPostPayload {
-  /** Reddit post ID (t3_xxxxx format) */
   postId: string;
-  /** Subreddit where the post was submitted */
-  subreddit: string;
-  /** Title of the post */
   title: string;
-  /** Username of the post author */
   author: string;
-  /** ISO-8601 timestamp of when the event fired */
-  flaggedAt: string;
-  /** Optional: reason/category for the flag */
-  reason?: string;
+  timestamp: number;
 }
 
 /** Response shape returned by the N8N webhook. */
@@ -42,36 +33,17 @@ export interface N8NWebhookResponse {
   message?: string;
 }
 
-// ── Configuration ────────────────────────────────────────
-
-/**
- * Reads the N8N webhook URL from the environment.
- * Throws immediately if the variable is missing —
- * fail fast rather than silently dropping payloads.
- */
-function getWebhookUrl(): string {
-  const url = process.env.N8N_WEBHOOK_URL;
-  if (!url || url.trim().length === 0) {
-    throw new Error(
-      "[QUORUM] N8N_WEBHOOK_URL is not set. " +
-        "Ensure .env is configured at the project root.",
-    );
-  }
-  return url;
-}
-
 // ── Dispatcher ───────────────────────────────────────────
 
-/**
- * Sends a payload to the N8N orchestration webhook.
- *
- * @param payload - The post data to dispatch.
- * @returns The parsed response from N8N, or `null` if the call failed.
- */
-export async function dispatchToN8N(
-  payload: FlaggedPostPayload,
-): Promise<N8NWebhookResponse | null> {
-  const webhookUrl = getWebhookUrl();
+export async function dispatchToN8N(payload: FlaggedPostPayload) {
+  // Evaluated at runtime, safe for Devvit's execution context
+  const webhookUrl = process.env.N8N_WEBHOOK_URL;
+
+  if (!webhookUrl) {
+    const error = new Error("N8N_WEBHOOK_URL is missing in the environment");
+    Sentry.captureException(error);
+    throw error;
+  }
 
   console.log(
     `[QUORUM] Dispatching post ${payload.postId} → N8N`,

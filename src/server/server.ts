@@ -9,11 +9,6 @@ import type {
 } from "@devvit/web/shared";
 import {
   ApiEndpoint,
-  type DecrementRequest,
-  type DecrementResponse,
-  type IncrementRequest,
-  type IncrementResponse,
-  type InitResponse,
 } from "../shared/api.ts";
 import { dispatchToN8N } from "../main.ts";
 import { once } from "node:events";
@@ -45,17 +40,8 @@ async function onRequest(
 
   const endpoint = url as ApiEndpoint;
 
-  let body: ApiResponse | UiResponse | ErrorResponse;
+  let body: UiResponse | TriggerResponse | ErrorResponse;
   switch (endpoint) {
-    case ApiEndpoint.Init:
-      body = await onInit();
-      break;
-    case ApiEndpoint.Increment:
-      body = await onIncrement(req);
-      break;
-    case ApiEndpoint.Decrement:
-      body = await onDecrement(req);
-      break;
     case ApiEndpoint.OnPostCreate:
       body = await onMenuNewPost();
       break;
@@ -74,65 +60,10 @@ async function onRequest(
   writeJSON<PartialJsonValue>("status" in body ? body.status : 200, body, rsp);
 }
 
-type ApiResponse = InitResponse | IncrementResponse | DecrementResponse;
-
 type ErrorResponse = {
   error: string;
   status: number;
 };
-
-function getPostId(): string {
-  if (!context.postId) {
-    throw Error("no post ID");
-  }
-  return context.postId;
-}
-
-function getPostCountKey(postId: string): string {
-  return `count:${postId}`;
-}
-
-async function onInit(): Promise<InitResponse> {
-  const postId = getPostId();
-  const count = Number((await redis.get(getPostCountKey(postId))) ?? 0);
-  return {
-    type: "init",
-    postId,
-    count,
-    username: context.username ?? "user",
-  };
-}
-
-async function onIncrement(req: IncomingMessage): Promise<IncrementResponse> {
-  const postId = getPostId();
-  const { amount } = await readJSON<IncrementRequest>(req).catch(() => ({
-    amount: 1,
-  }));
-  const incrementBy = Number.isFinite(amount) ? amount : 1;
-  const count = await redis.incrBy(getPostCountKey(postId), incrementBy);
-  return {
-    type: "increment",
-    postId,
-    count,
-  };
-}
-
-async function onDecrement(req: IncomingMessage): Promise<DecrementResponse> {
-  const postId = getPostId();
-  const { amount } = await readJSON<DecrementRequest>(req).catch(() => ({
-    amount: 1,
-  }));
-  const parsedAmount = typeof amount === "number" ? amount : Number(amount);
-  const decrementBy = Number.isFinite(parsedAmount) ? parsedAmount : 1;
-  const count = Number(
-    await redis.incrBy(getPostCountKey(postId), -decrementBy),
-  );
-  return {
-    type: "decrement",
-    postId,
-    count,
-  };
-}
 
 async function onMenuNewPost(): Promise<UiResponse> {
   const post = await reddit.submitCustomPost({ title: context.appName });
@@ -158,23 +89,18 @@ async function onPostSubmit(req: IncomingMessage): Promise<TriggerResponse> {
   const triggerData = await readJSON<OnPostSubmitRequest>(req);
 
   const postId = triggerData.post?.id ?? "unknown";
-  const subreddit = triggerData.subreddit?.name ?? "unknown";
-  const title = triggerData.post?.title ?? "";
-  const author = triggerData.author?.name ?? "unknown";
+  const title = triggerData.post?.title ?? "No Title";
+  const author = triggerData.author?.name ?? "AutoModerator";
 
-  console.log(
-    `[QUORUM] PostSubmit trigger fired — post=${postId} sub=${subreddit}`,
-  );
+  console.log(`[QUORUM] PostSubmit trigger fired — post=${postId}`);
 
   // Fire-and-forget: dispatch to N8N but don't block the trigger response.
   // Errors are captured by Sentry inside dispatchToN8N.
   dispatchToN8N({
     postId,
-    subreddit,
     title,
     author,
-    flaggedAt: new Date().toISOString(),
-    reason: "post_submit",
+    timestamp: Date.now(),
   }).catch((err) => {
     console.error(`[QUORUM] dispatchToN8N background error:`, err);
     Sentry.captureException(err);
