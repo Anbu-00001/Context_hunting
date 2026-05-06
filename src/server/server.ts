@@ -1,6 +1,8 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
+import * as Sentry from "@sentry/node";
 import { context, reddit, redis } from "@devvit/web/server";
 import type {
+  OnPostSubmitRequest,
   PartialJsonValue,
   TriggerResponse,
   UiResponse,
@@ -13,6 +15,7 @@ import {
   type IncrementResponse,
   type InitResponse,
 } from "../shared/api.ts";
+import { dispatchToN8N } from "../main.ts";
 import { once } from "node:events";
 
 export async function serverOnRequest(
@@ -24,6 +27,7 @@ export async function serverOnRequest(
   } catch (err) {
     const msg = `server error; ${err instanceof Error ? err.stack : err}`;
     console.error(msg);
+    Sentry.captureException(err);
     writeJSON<ErrorResponse>(500, { error: msg, status: 500 }, rsp);
   }
 }
@@ -57,6 +61,9 @@ async function onRequest(
       break;
     case ApiEndpoint.OnAppInstall:
       body = await onAppInstall();
+      break;
+    case ApiEndpoint.OnPostSubmit:
+      body = await onPostSubmit(req);
       break;
     default:
       endpoint satisfies never;
@@ -138,6 +145,39 @@ async function onMenuNewPost(): Promise<UiResponse> {
 async function onAppInstall(): Promise<TriggerResponse> {
   await reddit.submitCustomPost({
     title: "quorum-int",
+  });
+
+  return {};
+}
+
+// ── PostSubmit Trigger Handler ───────────────────────────
+// Fires every time a new post is submitted in the subreddit.
+// Reads the trigger payload and dispatches it to the N8N
+// orchestration webhook for analysis.
+async function onPostSubmit(req: IncomingMessage): Promise<TriggerResponse> {
+  const triggerData = await readJSON<OnPostSubmitRequest>(req);
+
+  const postId = triggerData.post?.id ?? "unknown";
+  const subreddit = triggerData.subreddit?.name ?? "unknown";
+  const title = triggerData.post?.title ?? "";
+  const author = triggerData.author?.name ?? "unknown";
+
+  console.log(
+    `[QUORUM] PostSubmit trigger fired — post=${postId} sub=${subreddit}`,
+  );
+
+  // Fire-and-forget: dispatch to N8N but don't block the trigger response.
+  // Errors are captured by Sentry inside dispatchToN8N.
+  dispatchToN8N({
+    postId,
+    subreddit,
+    title,
+    author,
+    flaggedAt: new Date().toISOString(),
+    reason: "post_submit",
+  }).catch((err) => {
+    console.error(`[QUORUM] dispatchToN8N background error:`, err);
+    Sentry.captureException(err);
   });
 
   return {};

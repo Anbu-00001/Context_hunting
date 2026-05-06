@@ -13,6 +13,15 @@
       }
     }
   },
+  "permissions": {
+    "http": {
+      "enable": true,
+      "domains": [
+        "loca.lt",
+        "o4511345179885568.ingest.us.sentry.io"
+      ]
+    }
+  },
   "server": {
     "dir": "dist/server",
     "entry": "index.js"
@@ -29,7 +38,8 @@
     ]
   },
   "triggers": {
-    "onAppInstall": "/internal/on-app-install"
+    "onAppInstall": "/internal/on-app-install",
+    "onPostSubmit": "/internal/triggers/on-post-submit"
   },
   "scripts": {
     "dev": "node --experimental-strip-types ./tools/build.ts --watch",
