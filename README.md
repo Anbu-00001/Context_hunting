@@ -31,9 +31,13 @@ flowchart LR
     E --> F
     F --> G["🔄 User Confusion\n& Trust Erosion"]
 
-    style A fill:#ff6b6b,stroke:#c0392b,color:#fff
-    style F fill:#e74c3c,stroke:#c0392b,color:#fff
-    style G fill:#e74c3c,stroke:#c0392b,color:#fff
+    style A fill:#ff6b6b,stroke:#ff8787,color:#fff
+    style B fill:#5b86e5,stroke:#7ea1ed,color:#fff
+    style C fill:#5b86e5,stroke:#7ea1ed,color:#fff
+    style D fill:#e74c3c,stroke:#ff6b6b,color:#fff
+    style E fill:#27ae60,stroke:#2ecc71,color:#fff
+    style F fill:#c0392b,stroke:#e74c3c,color:#fff
+    style G fill:#c0392b,stroke:#e74c3c,color:#fff
 ```
 
 ### 🔄 Mod Collisions
@@ -113,9 +117,16 @@ flowchart TD
     G2 --> H
     H --> I["💾 Record Decision\n+ Fingerprint to Memory"]
 
-    style A fill:#3498db,stroke:#2980b9,color:#fff
-    style D fill:#f39c12,stroke:#e67e22,color:#fff
-    style I fill:#2ecc71,stroke:#27ae60,color:#fff
+    style A fill:#3498db,stroke:#5dade2,color:#fff
+    style B fill:#8e44ad,stroke:#a569bd,color:#fff
+    style C fill:#7d3c98,stroke:#a569bd,color:#fff
+    style D fill:#f39c12,stroke:#f5b041,color:#fff
+    style E fill:#2874a6,stroke:#3498db,color:#fff
+    style F fill:#7f8c8d,stroke:#95a5a6,color:#fff
+    style G fill:#1a8a5c,stroke:#2ecc71,color:#fff
+    style G2 fill:#7f8c8d,stroke:#95a5a6,color:#fff
+    style H fill:#5b86e5,stroke:#7ea1ed,color:#fff
+    style I fill:#27ae60,stroke:#2ecc71,color:#fff
 ```
 
 > *"3 similar posts were removed under Rule 5 in the last 90 days. Tap to view."*
@@ -132,9 +143,13 @@ flowchart LR
     D -->|Yes| F["🚨 Style Break Alert!\nDeviation: 4.2σ"]
     F --> G["📢 Notify Mod Team\nvia Context Panel"]
 
-    style D fill:#f39c12,stroke:#e67e22,color:#fff
-    style F fill:#e74c3c,stroke:#c0392b,color:#fff
-    style E fill:#2ecc71,stroke:#27ae60,color:#fff
+    style A fill:#3498db,stroke:#5dade2,color:#fff
+    style B fill:#8e44ad,stroke:#a569bd,color:#fff
+    style C fill:#2874a6,stroke:#3498db,color:#fff
+    style D fill:#f39c12,stroke:#f5b041,color:#fff
+    style E fill:#27ae60,stroke:#2ecc71,color:#fff
+    style F fill:#c0392b,stroke:#e74c3c,color:#fff
+    style G fill:#e74c3c,stroke:#ff6b6b,color:#fff
 ```
 
 > *"⚠️ Style anomaly detected: This post's writing pattern deviates 4.2σ from u/example_user's baseline."*
@@ -157,9 +172,17 @@ flowchart TD
     I -->|Yes| J["🎉 Ready for\nFull Permissions!"]
     I -->|No| K["📈 Continue Training"]
 
-    style J fill:#2ecc71,stroke:#27ae60,color:#fff
-    style G fill:#e74c3c,stroke:#c0392b,color:#fff
-    style F fill:#2ecc71,stroke:#27ae60,color:#fff
+    style A fill:#8e44ad,stroke:#a569bd,color:#fff
+    style B fill:#2874a6,stroke:#3498db,color:#fff
+    style C fill:#5b86e5,stroke:#7ea1ed,color:#fff
+    style D fill:#1a8a5c,stroke:#2ecc71,color:#fff
+    style E fill:#f39c12,stroke:#f5b041,color:#fff
+    style F fill:#27ae60,stroke:#2ecc71,color:#fff
+    style G fill:#c0392b,stroke:#e74c3c,color:#fff
+    style H fill:#2874a6,stroke:#3498db,color:#fff
+    style I fill:#f39c12,stroke:#f5b041,color:#fff
+    style J fill:#27ae60,stroke:#2ecc71,color:#fff
+    style K fill:#e67e22,stroke:#f39c12,color:#fff
 ```
 
 > *"Trainee alignment: 87% match with senior decisions over the last 50 cases."*
@@ -196,17 +219,17 @@ graph TB
     Redis <-->|"Webhooks /\nScheduled Jobs"| N8N["⚙️ N8N Orchestrator"]
     N8N <-->|"AI Analysis\nRequests"| Gemini["🤖 Google Gemini API"]
 
-    style Reddit fill:#ff4500,stroke:#cc3700,color:#fff
-    style Devvit fill:#1a1a2e,stroke:#16213e,color:#fff
-    style Redis fill:#dc382c,stroke:#a52a2a,color:#fff
-    style N8N fill:#ea4b71,stroke:#c0392b,color:#fff
-    style Gemini fill:#4285f4,stroke:#3367d6,color:#fff
-    style CP fill:#2d3436,stroke:#636e72,color:#fff
-    style CE fill:#2d3436,stroke:#636e72,color:#fff
-    style DM fill:#2d3436,stroke:#636e72,color:#fff
-    style SD fill:#2d3436,stroke:#636e72,color:#fff
-    style TM fill:#2d3436,stroke:#636e72,color:#fff
-    style DB fill:#2d3436,stroke:#636e72,color:#fff
+    style Reddit fill:#cc3700,stroke:#ff6633,color:#fff
+    style Devvit fill:#4a1a6b,stroke:#7c3aed,color:#fff
+    style Redis fill:#c0392b,stroke:#e74c3c,color:#fff
+    style N8N fill:#d63384,stroke:#e85d9a,color:#fff
+    style Gemini fill:#2563eb,stroke:#5b86e5,color:#fff
+    style CP fill:#0e7c61,stroke:#2ecc71,color:#fff
+    style CE fill:#b45309,stroke:#f59e0b,color:#fff
+    style DM fill:#1a6fb5,stroke:#3498db,color:#fff
+    style SD fill:#9b2c2c,stroke:#e74c3c,color:#fff
+    style TM fill:#6b21a8,stroke:#a569bd,color:#fff
+    style DB fill:#0e7c61,stroke:#2ecc71,color:#fff
 ```
 
 ### Data Flow
@@ -222,10 +245,15 @@ flowchart LR
     G --> H["📈 Update User\nReputation"]
     H --> I["🔓 Release Claim"]
 
-    style A fill:#e74c3c,stroke:#c0392b,color:#fff
-    style D fill:#4285f4,stroke:#3367d6,color:#fff
-    style F fill:#f39c12,stroke:#e67e22,color:#fff
-    style I fill:#2ecc71,stroke:#27ae60,color:#fff
+    style A fill:#c0392b,stroke:#e74c3c,color:#fff
+    style B fill:#b45309,stroke:#f59e0b,color:#fff
+    style C fill:#2874a6,stroke:#3498db,color:#fff
+    style D fill:#2563eb,stroke:#5b86e5,color:#fff
+    style E fill:#7d3c98,stroke:#a569bd,color:#fff
+    style F fill:#e67e22,stroke:#f5b041,color:#fff
+    style G fill:#1a6fb5,stroke:#3498db,color:#fff
+    style H fill:#1a8a5c,stroke:#2ecc71,color:#fff
+    style I fill:#27ae60,stroke:#2ecc71,color:#fff
 ```
 
 ---
@@ -362,12 +390,25 @@ graph TD
     Config --> Pkg["📄 package.json"]
     Config --> TS["📄 tsconfig.json"]
 
-    style Root fill:#ff4500,stroke:#cc3700,color:#fff
-    style Src fill:#1a1a2e,stroke:#16213e,color:#fff
-    style Docs fill:#1a1a2e,stroke:#16213e,color:#fff
-    style Engines fill:#2d3436,stroke:#636e72,color:#fff
-    style Components fill:#2d3436,stroke:#636e72,color:#fff
-    style RedisDir fill:#dc382c,stroke:#a52a2a,color:#fff
+    style Root fill:#cc3700,stroke:#ff6633,color:#fff
+    style Src fill:#6b21a8,stroke:#a569bd,color:#fff
+    style Docs fill:#1a6fb5,stroke:#3498db,color:#fff
+    style N8N_Dir fill:#d63384,stroke:#e85d9a,color:#fff
+    style Config fill:#4a6741,stroke:#6b8f63,color:#fff
+    style Main fill:#8e44ad,stroke:#a569bd,color:#fff
+    style Components fill:#0e7c61,stroke:#2ecc71,color:#fff
+    style Engines fill:#b45309,stroke:#f59e0b,color:#fff
+    style RedisDir fill:#c0392b,stroke:#e74c3c,color:#fff
+    style Types fill:#2874a6,stroke:#3498db,color:#fff
+    style Schema fill:#2563eb,stroke:#5b86e5,color:#fff
+    style Arch fill:#2563eb,stroke:#5b86e5,color:#fff
+    style Workflows fill:#d63384,stroke:#e85d9a,color:#fff
+    style Env fill:#5a6e4f,stroke:#7ea16e,color:#fff
+    style GI fill:#5a6e4f,stroke:#7ea16e,color:#fff
+    style Lic fill:#5a6e4f,stroke:#7ea16e,color:#fff
+    style Readme fill:#5a6e4f,stroke:#7ea16e,color:#fff
+    style Pkg fill:#5a6e4f,stroke:#7ea16e,color:#fff
+    style TS fill:#5a6e4f,stroke:#7ea16e,color:#fff
 ```
 
 ```
