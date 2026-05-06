@@ -1,6 +1,75 @@
-node_modules
-.DS_Store
-dist
-.env
+# ===========================
+# QUORUM — .gitignore
+# ===========================
+# Optimized for Node.js / TypeScript / Devvit / N8N / Gemini
+
+# ----- Node.js -----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ----- Build Artifacts -----
+dist/
 public/*.js
 public/*.js.map
+
+# ----- TypeScript -----
+*.tsbuildinfo
+
+# ----- Devvit -----
+.devvit/
+devvit-build/
+.devvit-cache/
+playtest-state/
+
+# ----- Environment & Secrets -----
+.env
+.env.*
+!.env.example
+
+# ----- N8N Credentials -----
+n8n-creds/
+*.n8n-credentials.json
+
+# ----- Google Gemini / API Keys -----
+gemini-credentials.json
+service-account*.json
+*.pem
+*.key
+
+# ----- Redis (local testing) -----
+dump.rdb
+*.rdb
+redis-data/
+
+# ----- IDE & Editor -----
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# ----- macOS -----
+.DS_Store
+._*
+
+# ----- Linux -----
+.directory
+
+# ----- Windows -----
+Thumbs.db
+Desktop.ini
+
+# ----- Testing & Coverage -----
+coverage/
+.nyc_output/
+
+# ----- Misc -----
+*.log
+*.tmp
+*.bak
+.cache/
