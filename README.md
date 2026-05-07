@@ -463,6 +463,12 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 ---
 
+## Fetch Domains
+This app requires `unpledged-unwed-aloft.ngrok-free.dev` to dispatch moderation events to our n8n backend. 
+**Note for Reviewers: This is for the Devpost Mod Tools Migration Hackathon.**
+
+---
+
 <p align="center">
   <sub>Built with ☕ and conviction for the <strong>Reddit Mod Tools Hackathon 2026</strong></sub>
 </p>

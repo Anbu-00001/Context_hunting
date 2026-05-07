@@ -48,8 +48,17 @@ export async function dispatchToN8N(postData: FlaggedPostPayload) {
     `[QUORUM] Dispatching post ${postData.postId} → N8N`,
   );
 
+  // MOCK MODE: Bypass actual fetch while waiting for Devvit Admin Domain Approval
+  console.log(`[QUORUM MOCK] Webhook payload intercepted:`, postData);
+  return {
+    success: true,
+    executionId: "mock-execution-id",
+    message: "Mocked locally due to pending Devvit domain approval"
+  } as N8NWebhookResponse;
+
+  /*
   try {
-    const response = await fetch('https://happy-eggs-doubt.loca.lt/webhook-test/58f7d84c-45e1-4f21-8959-32c59f1bd6a6', {
+    const response = await fetch('https://unpledged-unwed-aloft.ngrok-free.dev/webhook-test/58f7d84c-45e1-4f21-8959-32c59f1bd6a6', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -80,4 +89,5 @@ export async function dispatchToN8N(postData: FlaggedPostPayload) {
     Sentry.captureException(err);
     return null;
   }
+  */
 }
