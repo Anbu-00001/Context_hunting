@@ -9,8 +9,8 @@ import type {
 } from "@devvit/web/shared";
 import {
   ApiEndpoint,
-} from "../shared/api.ts";
-import { dispatchToN8N } from "../main.ts";
+} from "../shared/api.js";
+import { dispatchToN8N } from "../main.js";
 import { once } from "node:events";
 
 export async function serverOnRequest(

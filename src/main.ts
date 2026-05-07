@@ -13,6 +13,11 @@
  */
 
 import * as Sentry from "@sentry/node";
+import { Devvit } from "@devvit/public-api";
+
+Devvit.configure({
+  http: true,
+});
 
 // ── Types ────────────────────────────────────────────────
 
@@ -35,30 +40,22 @@ export interface N8NWebhookResponse {
 
 // ── Dispatcher ───────────────────────────────────────────
 
-export async function dispatchToN8N(payload: FlaggedPostPayload) {
+export async function dispatchToN8N(postData: FlaggedPostPayload) {
   // Evaluated at runtime, safe for Devvit's execution context
   const webhookUrl = process.env.N8N_WEBHOOK_URL;
 
-  if (!webhookUrl) {
-    const error = new Error("N8N_WEBHOOK_URL is missing in the environment");
-    Sentry.captureException(error);
-    throw error;
-  }
-
   console.log(
-    `[QUORUM] Dispatching post ${payload.postId} → N8N`,
+    `[QUORUM] Dispatching post ${postData.postId} → N8N`,
   );
 
   try {
-    const response = await fetch(webhookUrl, {
-      method: "POST",
+    const response = await fetch('https://happy-eggs-doubt.loca.lt/webhook-test/58f7d84c-45e1-4f21-8959-32c59f1bd6a6', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        // LocalTunnel (loca.lt) requires this header to bypass
-        // the interstitial "Click to Continue" page.
-        "Bypass-Tunnel-Reminder": "true",
+        'Content-Type': 'application/json',
+        'Bypass-Tunnel-Reminder': 'true'
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(postData)
     });
 
     if (!response.ok) {

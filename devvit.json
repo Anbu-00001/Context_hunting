@@ -15,9 +15,8 @@
   },
   "permissions": {
     "http": {
-      "enable": true,
       "domains": [
-        "loca.lt",
+        "happy-eggs-doubt.loca.lt",
         "o4511345179885568.ingest.us.sentry.io"
       ]
     }
@@ -39,10 +38,13 @@
   },
   "triggers": {
     "onAppInstall": "/internal/on-app-install",
-    "onPostSubmit": "/internal/triggers/on-post-submit"
+    "onPostSubmit": "/internal/on-post-submit"
   },
   "scripts": {
     "dev": "node --experimental-strip-types ./tools/build.ts --watch",
     "build": "node --experimental-strip-types ./tools/build.ts --minify"
+  },
+  "dev": {
+    "subreddit": "quorum_int_dev"
   }
 }
