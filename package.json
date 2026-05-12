@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@devvit/web": "0.12.22",
-    "@sentry/node": "^10.51.0",
+    "@sentry/node": "^10.52.0",
     "devvit": "0.12.22"
   },
   "devDependencies": {
